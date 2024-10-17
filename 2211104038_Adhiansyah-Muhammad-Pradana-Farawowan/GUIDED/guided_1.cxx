@@ -142,14 +142,7 @@ int main() {
 	tampilkan_daftar();
 	sisip_paling_depan(m3);
 	tampilkan_daftar();
-
-    // insertDepan(m1);
-    // tampil();
-    // insertBelakang(m2);
-    // tampil();
-    // insertDepan(m3);
-    // tampil();
-
+	
 	hapus_paling_depan();
 	tampilkan_daftar();
 	hapus_paling_belakang();

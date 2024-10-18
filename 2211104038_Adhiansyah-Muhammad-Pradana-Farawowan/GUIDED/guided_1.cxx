@@ -1,121 +1,161 @@
 #include <iostream>
 
-struct NODE {
-    int data; 
-    NODE* next;
+struct MAHASISWA {
+	char nama[10];
+	char nim[10];
 };
 
-// Fungsi alokasi (buat elemen_terakhir_baru) elemen
-NODE* alok(int isi_data) {
-    NODE* elemen_terakhir_baru = new(NODE);
+struct NODE {
+	struct MAHASISWA data;
+	NODE *next;
+};
+
+NODE *head;
+NODE *tail;
+
+void init() {
+	head = nullptr;
+	tail = nullptr;
+}
+
+bool daftar_ternyata_kosong() {
+	return head == nullptr;
+}
+
+void sisip_paling_depan(const struct MAHASISWA& data) {
+	NODE *baru = new NODE;
+	baru->data = data;
+	baru->next = nullptr;
+
+	if (daftar_ternyata_kosong()) {
+		head = baru;
+		tail = baru;
+	} else {
+		baru->next = head;
+		head = baru;
+	}
+}
+
+void sisip_paling_belakang(const struct MAHASISWA& data) {
+	NODE *baru = new NODE;
+	baru->data = data;
+	baru->next = nullptr;
+
+	if (daftar_ternyata_kosong()) {
+		head = baru;
+		tail = baru;
+	} else {
+		tail->next = baru;
+		tail = baru;
+	}
+}
+
+int jumlah_elemen_daftar() {
+	NODE *c = head;
+	int jumlah = 0;
+
+	while (c->next != nullptr) {
+		jumlah = jumlah + 1;
+		c = c->next;
+	}
 	
-	if (elemen_terakhir_baru != nullptr) {
-		elemen_terakhir_baru->data = isi_data; 
-    	elemen_terakhir_baru->next = nullptr;
-	} 
-	
-    return elemen_terakhir_baru;
+
+	return jumlah;
 }
 
-// Fungsi dealokasi (hapus) elemen
-void dealok(NODE* NODE) {
-    delete NODE;
-}
+void hapus_paling_depan() {
+	if (daftar_ternyata_kosong()) {
+		std::cout << "Daftarnya kosong" << std::endl;
+	} else {
+		NODE *elemen_target = head;
+		head = head->next;
 
-// Apakah daftar kosong
-bool isi_ternyata_kosong(NODE* head) {
-    return head == nullptr;
-}
+		delete elemen_target;
 
-// Sisip di awal daftar
-void sisip_di_awal(NODE* &head, int isi_nilai) {
-    NODE* elemen_terawal_baru = alok(isi_nilai);
-
-    if (elemen_terawal_baru != nullptr) {
-        elemen_terawal_baru->next = head;
-        head = elemen_terawal_baru;
-    }
-}
-
-// Sisip di akhir daftar
-void sisip_di_akhir(NODE* &head, int value) {
-    NODE* elemen_terakhir_baru = alok(value);
-
-    if (elemen_terakhir_baru != nullptr) {
-        if (isi_ternyata_kosong(head)) {
-            head = elemen_terakhir_baru;      
-        } else {
-            NODE* elemen_terakhir = head;
-
-            while (elemen_terakhir->next != nullptr) {
-                elemen_terakhir = elemen_terakhir->next;
-            }
-
-            elemen_terakhir->next = elemen_terakhir_baru;
-        }
-    }
-}
-
-// Menampilkan semua elemen
-void cetak_daftar(NODE* head) {
-    if (isi_ternyata_kosong(head)) {
-        std::cout << "Daftar kosong" << std::endl;
-    } else {
-        NODE* elemen = head;
-
-        while (elemen != nullptr) {
-            std::cout << elemen->data << " => ";
-            elemen = elemen->next; 
+		if (head == nullptr) {
+			tail = nullptr;
 		}
-		std::cout << "NULL";
-        std::cout << std::endl;
-    }
+	}
 }
 
-// Menghitung jumlah semua elemen dalam daftar
-int jumlah_elemen(NODE* head) {
-    int jumlah = 0;
-    NODE* elemen = head;
+void hapus_paling_belakang() {
+	if (head == tail) {
+		delete head;
+		head = nullptr;
+		tail = nullptr;
+	} else {
+		NODE *elemen_terakhir_baru = head;
 
-    while (elemen != nullptr) {
-        jumlah = jumlah + 1;
-        elemen = elemen->next;
-    }
-
-    return jumlah; 
+		while (elemen_terakhir_baru->next != tail) {
+			elemen_terakhir_baru = elemen_terakhir_baru->next;
+		}
+		
+		delete tail;
+		tail = elemen_terakhir_baru;
+		tail->next = nullptr;
+	}
 }
 
-// Menghapus semua elemen dalam daftar
-void hapus_semua_elemen(NODE* &head) {
-    while (head != nullptr) {
-        NODE* elemen = head;
-        head = head->next;
-        dealok(elemen);
-    }
+void tampilkan_daftar() {
+	if (daftar_ternyata_kosong()) {
+		std::cout << "Daftarnya kosong" << std::endl;
+	} else {
+		NODE *elms = head;
+		
+		while (elms != nullptr) {
+			std::cout << elms->data.nama << "+" << elms->data.nim << " => ";
+			elms = elms->next;
+		}
+	}
+
+	std::cout << '\n';
 }
 
+void hapus_daftar() {
+	NODE *c = head;
+
+	while (c != nullptr) {
+		NODE *target = c;
+		c = c->next;
+		delete target;
+	}
+
+	head = nullptr;
+	tail = nullptr;
+
+	std::cout << '\n';
+	std::cout << "Berhasil dihapus" << std::endl;
+}
+
+// Main function
 int main() {
-	  // Daftar kosong
-    NODE* head = nullptr;
+    head = nullptr;
+	tail = nullptr;
+    
+    struct MAHASISWA m1 = {"Alice", "123456"};
+    struct MAHASISWA m2 = {"Bob", "654321"};
+    struct MAHASISWA m3 = {"Charlie", "112233"};
 
-    // Menambahkan elemen
-    sisip_di_awal(head, 10);
-    sisip_di_akhir(head, 20);
-    sisip_di_akhir(head, 30);
+	sisip_paling_depan(m1);
+	tampilkan_daftar();
+	sisip_paling_belakang(m2);
+	tampilkan_daftar();
+	sisip_paling_depan(m3);
+	tampilkan_daftar();
 
-    // Menampilkan isi daftar
-    std::cout << "Isi daftar: ";
-    cetak_daftar(head);
+    // insertDepan(m1);
+    // tampil();
+    // insertBelakang(m2);
+    // tampil();
+    // insertDepan(m3);
+    // tampil();
 
-    // Menampilkan jumlah elemen
-    std::cout << "Jumlah elemen: " << jumlah_elemen(head) << std::endl;
+	hapus_paling_depan();
+	tampilkan_daftar();
+	hapus_paling_belakang();
+	tampilkan_daftar();
 
-    // Menghapus semua elemen dalam daftar
-    hapus_semua_elemen(head);
-
-    // Menampilkan isi daftar setelah penghapusan
-    std::cout << "Isi daftar setelah penghapusan: ";
-    cetak_daftar(head);
-
+    hapus_daftar();
+    
     return 0;
 }

@@ -5,7 +5,7 @@ struct NODE {
     NODE* next;
 };
 
-// Fungsi alokasi (buat elemen_terakhir_baru) elemen elemen_terakhir_baru
+// Fungsi alokasi (buat elemen)
 NODE* alok(int isi_data) {
     NODE* elemen_terakhir_baru = new(NODE);
 	
@@ -22,7 +22,7 @@ void dealok(NODE* NODE) {
     delete NODE;
 }
 
-// Pengecekan apakah list kosong
+// Cek apakah isi daftar kosong
 bool isi_ternyata_kosong(NODE* head) {
     return head == nullptr;
 }
@@ -95,7 +95,7 @@ void hapus_semua_elemen(NODE* &head) {
 }
 
 int main() {
-	  // Daftar kosong
+    // Daftar kosong
     NODE* head = nullptr;
 
     // Menambahkan elemen
@@ -103,17 +103,17 @@ int main() {
     sisip_di_akhir(head, 20);
     sisip_di_akhir(head, 30);
 
-    // Menampilkan isi list
+    // Menampilkan isi daftar
     std::cout << "Isi daftar: ";
     cetak_daftar(head);
 
     // Menampilkan jumlah elemen
     std::cout << "Jumlah elemen: " << jumlah_elemen(head) << std::endl;
 
-    // Menghapus semua elemen dalam list
+    // Menghapus semua elemen
     hapus_semua_elemen(head);
 
-    // Menampilkan isi list setelah penghapusan
+    // Menampilkan isi daftar setelah penghapusan
     std::cout << "Isi daftar setelah penghapusan: ";
     cetak_daftar(head);
 

@@ -1,3 +1,4 @@
+// Pendekatan fungsional, prosedur dari daftar berantai
 #include <iostream>
 #include <stdexcept>
 
@@ -138,7 +139,7 @@ int main() {
     tambah_baru_di_akhir(jawaban_3, 20);
     tambah_baru_di_awal(jawaban_3, 5);
     cari_elemen(jawaban_3, 20);
-    std::cout << "Panjang daftar berantai: " << jumlah_elemen_daftar(jawaban_2)
+    std::cout << "Panjang daftar berantai: " << jumlah_elemen_daftar(jawaban_3)
               << '\n';
  
     return 0;
